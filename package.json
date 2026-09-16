@@ -1,0 +1,8 @@
+{
+  "name": "kasse",
+  "private": true,
+  "description": "Stand-Kasse mit Produktpaketen",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

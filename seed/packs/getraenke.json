@@ -1,0 +1,10 @@
+{
+  "id": "getraenke",
+  "name": "Getränke",
+  "products": [
+    { "id": "cola", "name": "Cola", "price": 2.5 },
+    { "id": "wasser", "name": "Wasser", "price": 1.5 },
+    { "id": "bier", "name": "Bier 0,5l", "price": 3.5 },
+    { "id": "schorle", "name": "Apfelschorle", "price": 2.5 }
+  ]
+}

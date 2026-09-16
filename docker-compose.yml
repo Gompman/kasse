@@ -1,0 +1,21 @@
+services:
+  kasse:
+    build: .
+    image: kasse:local
+    container_name: kasse
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DATA_DIR: /data
+    volumes:
+      - kasse-data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  kasse-data:

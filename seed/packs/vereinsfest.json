@@ -1,0 +1,10 @@
+{
+  "id": "vereinsfest",
+  "name": "Vereinsfest",
+  "products": [
+    { "id": "pommes", "name": "Pommes", "price": 3.0 },
+    { "id": "bratwurst", "name": "Bratwurst", "price": 3.0 },
+    { "id": "currywurst", "name": "Currywurst", "price": 3.5 },
+    { "id": "mantaplatte", "name": "Mantaplatte", "price": 6.5 }
+  ]
+}
