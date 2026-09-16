@@ -477,7 +477,7 @@ input {
   body {
     display: flex;
     flex-direction: column;
-    padding-bottom: 0;
+    padding-bottom: calc(var(--bar-height) + var(--safe-bottom));
   }
 
   .topbar {
@@ -509,14 +509,17 @@ input {
     min-height: 0;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding: 6px 8px;
+    gap: 4px;
+    padding: 4px 0 0;
+    max-width: none;
     overflow: hidden;
   }
 
   .panel {
-    padding: 6px 10px;
-    border-radius: 14px;
+    padding: 6px 8px;
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
     box-shadow: none;
   }
 
@@ -595,11 +598,25 @@ input {
   .order-panel {
     flex: 1;
     min-height: 0;
-    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .cart-list {
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
     gap: 0;
+    align-content: start;
+  }
+
+  .cart-count {
+    flex-shrink: 0;
+    margin: 0;
+    padding: 8px 2px 4px;
+    border-top: 1px solid var(--line);
+    background: var(--surface);
   }
 
   .cart-item {
@@ -630,7 +647,7 @@ input {
 
   .cash-buttons {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 0;
   }
 
@@ -660,11 +677,11 @@ input {
   }
 
   .totals-bar {
-    position: relative;
-    flex-shrink: 0;
-    left: auto;
-    right: auto;
-    bottom: auto;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
     padding: 14px 12px calc(14px + var(--safe-bottom));
     gap: 8px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -696,7 +713,8 @@ input {
       "products order"
       "cash order";
     align-items: stretch;
-    padding: 20px;
+    padding: 12px;
+    max-width: none;
   }
 
   .checkout {
@@ -721,6 +739,13 @@ input {
   .order-panel .cart-list {
     flex: 1;
     align-content: start;
+  }
+
+  .order-panel .cart-count {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
   }
 
   .product-grid {
