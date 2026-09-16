@@ -36,6 +36,8 @@ docker compose up --build
 
 Daten liegen im Volume `kasse-data` unter `/data/packs/<paket>.json`.
 
+Unraid: [`docker-compose.unraid.yaml`](docker-compose.unraid.yaml) — Image von GHCR, Daten unter `/mnt/user/appdata/kasse`.
+
 ## Bedienung
 
 - Oben das **Paket** wählen (`/p/vereinsfest`, `/p/getraenke`, …).
