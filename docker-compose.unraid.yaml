@@ -1,16 +1,11 @@
 # Unraid-Sample für ghcr.io/gompman/kasse
 #
-# Vorbereitung auf Unraid:
-#   mkdir -p /mnt/user/appdata/kasse
-#   chown -R 1000:1000 /mnt/user/appdata/kasse
-#
-# Privates GHCR-Image (einmalig im Unraid-Terminal):
-#   docker login ghcr.io -u Gompman
-#   PAT mit Recht read:packages verwenden.
+# Unraid-User nobody:users = PUID 99 / PGID 100.
+# Nicht extra `user:` setzen — der Entrypoint muss als root
+# /data chownen und danach auf 99:100 wechseln.
 #
 # Pangolin: Auth bleibt außen. Target http://kasse:3000
-# im selben Docker-Netz wie Newt/Pangolin. Port 3000
-# nicht ins Internet weiterleiten.
+# im selben Docker-Netz. Port 3000 nicht ins Internet.
 
 services:
   kasse:
@@ -23,6 +18,9 @@ services:
       TZ: Europe/Berlin
       PORT: "3000"
       DATA_DIR: /data
+      PUID: "99"
+      PGID: "100"
+      UMASK: "022"
     volumes:
       - /mnt/user/appdata/kasse:/data
     # LAN-Test. Für Pangolin diese ports-Zeilen auskommentieren

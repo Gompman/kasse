@@ -36,7 +36,7 @@ docker compose up --build
 
 Daten liegen im Volume `kasse-data` unter `/data/packs/<paket>.json`.
 
-Unraid: [`docker-compose.unraid.yaml`](docker-compose.unraid.yaml) — Image von GHCR, Daten unter `/mnt/user/appdata/kasse`.
+Unraid: [`docker-compose.unraid.yaml`](docker-compose.unraid.yaml) — Image von GHCR, Daten unter `/mnt/user/appdata/kasse`, **PUID=99 / PGID=100** (`nobody:users`). Nicht `user:` im Compose setzen.
 
 ## Bedienung
 

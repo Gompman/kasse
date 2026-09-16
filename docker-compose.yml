@@ -9,6 +9,8 @@ services:
     environment:
       PORT: 3000
       DATA_DIR: /data
+      PUID: "1000"
+      PGID: "1000"
     volumes:
       - kasse-data:/data
     read_only: true
