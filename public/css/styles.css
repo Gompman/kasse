@@ -92,6 +92,10 @@ input {
   margin: 0;
   font-size: 1.25rem;
   letter-spacing: 0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
 .btn-icon {
@@ -390,31 +394,34 @@ input {
   right: 0;
   bottom: 0;
   min-height: calc(var(--bar-height) + var(--safe-bottom));
-  padding: 12px 16px calc(12px + var(--safe-bottom));
+  padding: 16px 16px calc(16px + var(--safe-bottom));
   background: var(--ink);
   color: var(--accent-ink);
   display: grid;
-  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.1fr) minmax(0, 1.15fr) minmax(0, 1.5fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   z-index: 30;
 }
 
 .totals-item {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  min-width: 0;
 }
 
 .totals-item span {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
   opacity: 0.75;
 }
 
 .totals-item strong {
-  font-size: 1.7rem;
+  font-size: 1.85rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .totals-sum strong {
@@ -423,6 +430,7 @@ input {
 
 #change-amount {
   white-space: nowrap;
+  line-height: 1.1;
 }
 
 #change-amount.is-ok {
@@ -431,12 +439,33 @@ input {
 
 #change-amount.is-warn {
   color: #fdba74;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  white-space: normal;
+  font-size: 1.35rem;
+  overflow: visible;
+  text-overflow: unset;
+}
+
+#change-amount .change-prefix {
+  font-size: 0.72em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+#change-amount .change-value {
+  font-size: 1em;
+  line-height: 1.1;
 }
 
 @media (max-width: 859px) {
   :root {
-    --touch: 48px;
-    --bar-height: 76px;
+    --touch: 60px;
+    --bar-height: 108px;
   }
 
   html,
@@ -455,6 +484,10 @@ input {
     flex-shrink: 0;
     padding: calc(8px + env(safe-area-inset-top, 0px)) 10px 8px;
     grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .topbar h1 {
+    font-size: 1.05rem;
   }
 
   .topbar .btn-ghost {
@@ -606,9 +639,16 @@ input {
     border-radius: 12px;
   }
 
-  .btn-cash {
-    min-height: 50px;
-    font-size: 1.02rem;
+  .btn-cash,
+  .cash-buttons #clear-given {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    min-height: 0;
+    max-height: 68px;
+    height: auto;
+    font-size: 1.05rem;
+    border-radius: 16px;
+    padding: 0;
   }
 
   .btn-ghost {
@@ -619,47 +659,31 @@ input {
     min-height: 44px;
   }
 
-  .cash-buttons #clear-given {
-    min-height: 50px;
-  }
-
   .totals-bar {
     position: relative;
     flex-shrink: 0;
     left: auto;
     right: auto;
     bottom: auto;
-    padding: 8px 12px calc(8px + var(--safe-bottom));
-    gap: 6px 10px;
-    grid-template-columns: max-content minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.7fr);
+    padding: 14px 12px calc(14px + var(--safe-bottom));
+    gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .totals-item {
-    gap: 4px;
+    gap: 6px;
+    text-align: center;
   }
 
   .totals-item span {
-    font-size: 0.72rem;
+    font-size: 0.82rem;
   }
 
   .totals-item strong {
-    font-size: 1.32rem;
+    font-size: 1.7rem;
   }
 
-  .totals-qty {
-    padding-right: 2px;
-  }
-
-  .totals-qty span {
-    letter-spacing: 0.04em;
-  }
-
-  .totals-qty strong {
-    font-size: 1.32rem;
-  }
-
-  .totals-change strong {
-    font-size: 1.32rem;
+  .totals-change strong:not(.is-warn) {
     white-space: nowrap;
     letter-spacing: -0.01em;
   }
@@ -710,13 +734,20 @@ input {
 
 .pack-select-wrap {
   min-width: 0;
-  flex: 1;
+  display: grid;
+  gap: 6px;
+}
+
+.pack-select-wrap > span {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
 }
 
 .pack-select-wrap select {
   width: 100%;
-  max-width: 220px;
-  min-height: 44px;
+  min-height: 48px;
   border: 1px solid rgba(255, 247, 237, 0.35);
   border-radius: 14px;
   background: transparent;
@@ -758,8 +789,70 @@ input {
   opacity: 0.85;
 }
 
-.edit-status.is-error {
-  color: #fdba74;
+.cart-count {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.4);
+  z-index: 18;
+}
+
+.app-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 16px 16px;
+  background: #292524;
+  color: var(--accent-ink);
+  position: relative;
+  z-index: 22;
+}
+
+.app-menu-item {
+  width: 100%;
+}
+
+.app-menu .btn-ghost {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 48px;
+  color: var(--accent-ink);
+  border-color: rgba(255, 247, 237, 0.35);
+}
+
+.app-menu .btn-ghost svg {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.25;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.app-menu .btn-ghost .icon-fs-exit {
+  display: none;
+}
+
+.app-menu .btn-ghost.is-active .icon-fs-enter {
+  display: none;
+}
+
+.app-menu .btn-ghost.is-active .icon-fs-exit {
+  display: block;
+}
+
+.app-menu .pack-select-wrap select {
+  max-width: none;
 }
 
 body.is-editing .checkout {
@@ -861,6 +954,15 @@ body.is-editing .checkout {
     position: static;
   }
 
+  .app-menu {
+    flex-shrink: 0;
+    padding: 10px 8px 12px;
+  }
+
+  .app-menu .btn-ghost {
+    min-height: 48px;
+  }
+
   .edit-toolbar .btn-ghost,
   .edit-toolbar .btn-primary {
     min-height: 40px;
@@ -869,9 +971,8 @@ body.is-editing .checkout {
   }
 
   .pack-select-wrap select {
-    max-width: 150px;
-    min-height: 44px;
-    font-size: 0.95rem;
+    min-height: 48px;
+    font-size: 1rem;
   }
 
   .topbar-actions .btn-ghost {

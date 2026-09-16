@@ -15,13 +15,17 @@
     packEmpty: document.getElementById("pack-empty"),
     cartList: document.getElementById("cart-list"),
     cartEmpty: document.getElementById("cart-empty"),
-    totalQty: document.getElementById("total-qty"),
+    cartCount: document.getElementById("cart-count"),
     totalSum: document.getElementById("total-sum"),
     givenAmount: document.getElementById("given-amount"),
     changeAmount: document.getElementById("change-amount"),
     cashButtons: document.getElementById("cash-buttons"),
     clearGiven: document.getElementById("clear-given"),
     nextCustomer: document.getElementById("next-customer"),
+    menuToggle: document.getElementById("menu-toggle"),
+    appMenu: document.getElementById("app-menu"),
+    menuBackdrop: document.getElementById("menu-backdrop"),
+    packTitle: document.getElementById("pack-title"),
     fullscreenToggle: document.getElementById("fullscreen-toggle"),
     packSelect: document.getElementById("pack-select"),
     editToggle: document.getElementById("edit-toggle"),
@@ -315,11 +319,21 @@
       item.append(meta, controls);
       els.cartList.append(item);
     });
+
+    const { qty } = totals();
+    if (qty > 0) {
+      els.cartCount.hidden = false;
+      els.cartCount.classList.remove("is-hidden");
+      els.cartCount.textContent = qty === 1 ? "1 Artikel" : `${qty} Artikel`;
+    } else {
+      els.cartCount.hidden = true;
+      els.cartCount.classList.add("is-hidden");
+      els.cartCount.textContent = "";
+    }
   }
 
   function renderTotalsAndChange() {
-    const { qty, sumCents } = totals();
-    els.totalQty.textContent = String(qty);
+    const { sumCents } = totals();
     els.totalSum.textContent = formatEuro(sumCents);
     els.givenAmount.textContent = formatEuro(state.givenCents);
 
@@ -338,7 +352,13 @@
 
     const diff = state.givenCents - sumCents;
     if (diff < 0) {
-      els.changeAmount.textContent = `Noch ${formatEuro(-diff)}`;
+      const prefix = document.createElement("span");
+      prefix.className = "change-prefix";
+      prefix.textContent = "Noch";
+      const value = document.createElement("span");
+      value.className = "change-value";
+      value.textContent = formatEuro(-diff);
+      els.changeAmount.replaceChildren(prefix, value);
       els.changeAmount.classList.add("is-warn");
       return;
     }
@@ -347,11 +367,25 @@
     els.changeAmount.classList.add("is-ok");
   }
 
+  function setMenuOpen(open) {
+    document.body.classList.toggle("menu-open", open);
+    els.appMenu.hidden = !open;
+    els.appMenu.classList.toggle("is-hidden", !open);
+    els.menuBackdrop.classList.toggle("is-hidden", !open);
+    els.menuToggle.setAttribute("aria-expanded", open ? "true" : "false");
+    els.menuToggle.setAttribute("aria-label", open ? "Menü schließen" : "Menü");
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   function renderChrome() {
     document.body.classList.toggle("is-editing", state.editing);
     els.editToolbar.classList.toggle("is-hidden", !state.editing);
     els.editToggle.textContent = state.editing ? "Kasse" : "Pflegen";
     els.nextCustomer.hidden = state.editing;
+    els.packTitle.textContent = state.pack ? state.pack.name : "Kasse";
     document.title = state.pack ? `Kasse · ${state.pack.name}` : "Kasse";
   }
 
@@ -466,11 +500,25 @@
     render();
   });
 
+  els.menuToggle.addEventListener("click", () => {
+    setMenuOpen(els.appMenu.hidden);
+  });
+
+  els.menuBackdrop.addEventListener("click", closeMenu);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMenu();
+    }
+  });
+
   els.packSelect.addEventListener("change", () => {
+    closeMenu();
     selectPack(els.packSelect.value).catch((error) => setStatus(error.message, true));
   });
 
   els.editToggle.addEventListener("click", () => {
+    closeMenu();
     if (state.editing && state.dirty) {
       const ok = window.confirm("Ungespeicherte Änderungen verwerfen?");
       if (!ok) {
@@ -647,6 +695,10 @@
     const active = Boolean(fullscreenElement());
     els.fullscreenToggle.classList.toggle("is-active", active);
     els.fullscreenToggle.setAttribute("aria-label", active ? "Vollbild beenden" : "Vollbild");
+    const fsLabel = document.getElementById("fullscreen-label");
+    if (fsLabel) {
+      fsLabel.textContent = active ? "Vollbild beenden" : "Vollbild";
+    }
     if (active) {
       keepScreenAwake();
     } else {

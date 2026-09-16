@@ -13,35 +13,55 @@
     <meta name="apple-mobile-web-app-title" content="Kasse" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <title>Kasse</title>
-    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css?v=layout4" />
   </head>
   <body>
     <header class="topbar">
       <div class="topbar-left">
-        <button type="button" class="btn btn-icon" id="fullscreen-toggle" aria-label="Vollbild">
-          <svg class="icon-fs-enter" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 3H3v5" />
-            <path d="M16 3h5v5" />
-            <path d="M3 16v5h5" />
-            <path d="M21 16v5h-5" />
-          </svg>
-          <svg class="icon-fs-exit" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M9 3v6H3" />
-            <path d="M15 3v6h6" />
-            <path d="M3 15h6v6" />
-            <path d="M21 15h-6v6" />
+        <button
+          type="button"
+          class="btn btn-icon"
+          id="menu-toggle"
+          aria-label="Menü"
+          aria-expanded="false"
+          aria-controls="app-menu"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16" />
+            <path d="M4 12h16" />
+            <path d="M4 17h16" />
           </svg>
         </button>
-        <label class="pack-select-wrap">
-          <span class="sr-only">Produktpaket</span>
-          <select id="pack-select"></select>
-        </label>
+        <h1 id="pack-title">Kasse</h1>
       </div>
       <div class="topbar-actions">
-        <button type="button" class="btn btn-ghost" id="edit-toggle">Pflegen</button>
         <button type="button" class="btn btn-ghost" id="next-customer">Nächster Kunde</button>
       </div>
     </header>
+
+    <div class="menu-backdrop is-hidden" id="menu-backdrop"></div>
+    <nav class="app-menu is-hidden" id="app-menu" hidden>
+      <button type="button" class="btn btn-ghost app-menu-item" id="fullscreen-toggle" aria-label="Vollbild">
+        <svg class="icon-fs-enter" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M8 3H3v5" />
+          <path d="M16 3h5v5" />
+          <path d="M3 16v5h5" />
+          <path d="M21 16v5h-5" />
+        </svg>
+        <svg class="icon-fs-exit" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 3v6H3" />
+          <path d="M15 3v6h6" />
+          <path d="M3 15h6v6" />
+          <path d="M21 15h-6v6" />
+        </svg>
+        <span id="fullscreen-label">Vollbild</span>
+      </button>
+      <button type="button" class="btn btn-ghost app-menu-item" id="edit-toggle">Pflegen</button>
+      <label class="pack-select-wrap app-menu-item">
+        <span>Produktpaket</span>
+        <select id="pack-select"></select>
+      </label>
+    </nav>
 
     <div class="edit-toolbar is-hidden" id="edit-toolbar">
       <button type="button" class="btn btn-ghost" id="add-product">Artikel +</button>
@@ -63,6 +83,7 @@
           <h2 id="order-heading">Bestellung</h2>
           <p class="empty-hint" id="cart-empty">Noch keine Artikel</p>
           <ul class="cart-list" id="cart-list"></ul>
+          <p class="cart-count is-hidden" id="cart-count"></p>
         </section>
 
         <section class="panel cash-panel" aria-labelledby="cash-heading">
@@ -84,10 +105,6 @@
     </main>
 
     <footer class="totals-bar" aria-live="polite">
-      <div class="totals-item totals-qty">
-        <span>Artikel</span>
-        <strong id="total-qty">0</strong>
-      </div>
       <div class="totals-item totals-sum">
         <span>Summe</span>
         <strong id="total-sum">0,00 €</strong>
@@ -118,6 +135,6 @@
       </form>
     </dialog>
 
-    <script src="/js/app.js"></script>
+    <script src="/js/app.js?v=layout4"></script>
   </body>
 </html>
